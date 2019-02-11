@@ -4,7 +4,7 @@ class Login extends CI_Controller {
 
 	public function index()
 	{
-		if( is_logged_in( 'sess_name' ) )
+		if( is_logged_in( 'jots_sess' ) )
 		{
 			redirect('Home');
 		}
@@ -27,7 +27,7 @@ class Login extends CI_Controller {
 					$bind = ldap_bind($con,$user."@phoenix.net.ph",$pass);
 					if( $bind )
 					{
-						$dn = "DC=phoenix,DC=net,DC=ph";
+						/*$dn = "DC=phoenix,DC=net,DC=ph";
 						$search =ldap_search($con, $dn, "samaccountname=$user");
 						$data = ldap_get_entries($con, $search);
 						
@@ -44,14 +44,25 @@ class Login extends CI_Controller {
 					                    'ufullname'  => $data[0]["displayname"][0],
 					                    'udept'     => $list_of_my_dept,
 					                    'uusername'  => $data[0]["samaccountname"][0]
-					                );
-						
-						build_session( 'sess_name', $user_session );
-						if( is_logged_in( 'sess_name' ) )
-						{
-							unset( $_SESSION['error'] );
-							redirect('Home');
-						}
+					                );*/
+
+					    $this->load->model('Login_Model');
+					    $rs = $this->Login_Model->getUserInfo( $user );
+
+					    if( $rs !== FALSE ) {
+
+					    	build_session( 'jots_sess', $rs->row() );
+							if( is_logged_in( 'jots_sess' ) )
+							{
+								unset( $_SESSION['error'] );
+								if( (int)$rs->row()->UserLevelID > 1 ) {
+									redirect('Dashboard');
+								}
+
+								redirect('Home');
+							}
+					    }
+					    else { $_SESSION['error'] = "You're not authorized to sign in"; }
 					}
 					else { $_SESSION['error'] = "Invalid Account"; }
 				}

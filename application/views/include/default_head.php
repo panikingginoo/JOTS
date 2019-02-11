@@ -32,6 +32,9 @@
     <style type="text/css">
         #main-content
         {
-            margin-left: <?php echo $sidebar_active ? '210px' : 0; ?>;
+            margin-left: <?php echo $sidebar_active ? '250px' : 0; ?>;
+        }
+        #sidebar {
+            width: 250px;
         }
     </style>

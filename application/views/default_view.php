@@ -11,13 +11,13 @@
     $my_css = ['gallery']; //add your css here, NO NEED to put extension (.css) eg. 'my_css'
     $my_asset = ['assets/fancybox/source/jquery.fancybox.css']; //add your asset path here
 
-    $this->load->view('include/config_pages');
-    $this->load->view('include/default_head');
+    include 'include/config_pages.php';
+    include 'include/default_head.php';
 ?>
 </head>
 <body>
-    <?php $this->load->view('include/default_header.php'); ?>
-    <?php $this->load->view('include/default_sidebar.php'); ?>
+    <?php include 'include/default_header.php'; ?>
+    <?php include 'include/default_sidebar.php'; ?>
     
     <section id="container" class="">
         <section id="main-content">

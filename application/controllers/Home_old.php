@@ -3,8 +3,6 @@
 class Home extends CI_Controller {
 
 	protected $user;
-	protected $breakInfo;
-	protected $current_status;
 
 	public function __construct() {
 		parent::__construct();
@@ -14,73 +12,10 @@ class Home extends CI_Controller {
     	}
     	$this->user = session_data('jots_sess');
     	$this->load->model('Home_Model');
-
-    	$this->breakInfo = $this->Home_Model->getBreakInfo();
-    	$this->current_status = (int)$this->Home_Model->current_status();
 	}
 
 	public function index() {
-
-		$current_status = $this->current_status;
-		switch ( (int)$this->user->UserLevelID ) {
-			case 2: // client
-				if( $current_status !== 3 ) {
-					$data['current_status'] = $current_status;
-					$this->load->view('vHome',$data);
-				} else {
-					$data['breakInfo'] = $this->breakInfo;
-					$this->load->view('vBreakOut',$data);
-				}
-				break;
-			case 3: // supervisor
-				if( $current_status !== 3 ) {
-					$data['current_status'] = $current_status;
-					$this->load->view('vSupervisor_Home',$data);
-				} else {
-					$data['breakInfo'] = $this->changeBreakStatus;
-					$this->load->view('vBreakOut',$data);
-				}
-				// redirect('Dashboard');
-				break;
-			case 4: // manager
-				$this->load->view('vHome');
-				break;
-			default: // employee
-				if( $current_status !== 3 ) {
-					$data['current_status'] = $current_status;
-					$this->load->view('vHome',$data);
-				} else {
-					$data['breakInfo'] = $this->breakInfo;
-					$this->load->view('vBreakOut',$data);
-				}
-				break;
-		}
-	}
-
-	public function breakOut() {
-		if( $this->current_status !== 3 ) {
-			$breakOut = date('Y-m-d H:i:s');
-			$rs = $this->Home_Model->changeBreakStatus( 0,'',$breakOut );
-			if( $rs ) {
-				// redirect('Home');
-				echo 0;
-			} else {
-				echo 'ERROR: '.$rs;
-			}
-		} else { echo 'Unable to break in'; }
-	}
-
-	public function breakIn() {
-		if( $this->current_status === 3 ) {
-			$breakIn = date('Y-m-d H:i:s');
-			$rs = $this->Home_Model->changeBreakStatus( $this->breakInfo->BreakLogID,$breakIn,$this->breakInfo->BreakOut );
-			if( $rs ) {
-				// redirect('Home');
-				echo 0;
-			} else {
-				echo 'ERROR: '.$rs;
-			}
-		} else { echo 'Unable to break in'; }
+		$this->load->view('vHome');
 	}
 
 	private function _multiKeyExists(array $arr, $key) {
@@ -101,19 +36,16 @@ class Home extends CI_Controller {
 	    return false;
 	}
 
-	public function test() {
-		$rs = $this->Home_Model->getBreakInfo();
-		echo '<pre>';
-		print_r( $rs );
-		echo $rs->row()->BreakOut;
+	public function delete_cache() {
+		$this->db->cache_delete_all();
 	}
+
+
 	public function getMyTask() {
 		$rs = $this->Home_Model->getTaskHistory();
-		$task['my_task'] = [];
-		$task['current_wip'] = [];
-		if( $rs !== FALSE ) {
-			$c_wip = $this->Home_Model->currentWIP();
+		$task = [];
 
+		if( $rs !== FALSE ) {
 			foreach ($rs->result() as $row) {
 				$TaskNo = $row->TaskNo;
 
@@ -132,27 +64,18 @@ class Home extends CI_Controller {
 
 				$info['id'] = $row->TaskHistoryID;
 				$info['TaskNo'] = $TaskNo;
+				$info['TaskNo'] = $row->TaskNo;
 				$info['Description'] = $row->TaskDescription;
 				$info['TaskStatus'] = $row->TaskStatusID;
 				$info['StartTime'] = $row->StartTime;
 				$info['StopTime'] = $row->StopTime;
-				$info['StartDate'] = is_null($row->StartTime) ? null : date('M d, Y',strtotime($row->StartTime));
-				$info['DueDate'] = date('M d, Y',strtotime($row->DueDate));
-				$info['EndTime'] = is_null($row->EndTime) ? null : date('M d, Y',strtotime($row->EndTime));
+				$info['StartDate'] = date('Y-m-d',strtotime($row->StartTime));
+				$info['DueDate'] = date('Y-m-d',strtotime($row->DueDate));
+				$info['EndTime'] = $row->EndTime;
 				$info['attributes'] = $attrList;
 				$info['isRunning'] = (bool) $row->isRunning;
-				$info['CategoryID'] = $row->CategoryID;
-				$info['AssignedTo'] = (int)$row->AssignedTo;
-				$info['AssignedBy'] = (int)$row->AssignedBy;
-				$info['SubmittedBy'] = (int)$row->TaskStatusID > 2 ? strtoupper($row->AssignedToName) : null;
-				$info['SubmittedTime'] = is_null($row->SubmittedTime) || $row->SubmittedTime == '' ? null : date('F d, Y - h:i A',strtotime($row->SubmittedTime));
-				
 
-				if( $c_wip[0] === TRUE && $c_wip[1]->num_rows() > 0 && ( (int)$row->TaskHistoryID === (int)$c_wip[1]->row()->TaskHistoryID ) ) {
-					$task['current_wip'][] = $info;
-				}
-
-				$task['my_task'][] = $info;
+				$task[] = $info;
 			}
 		}
 
@@ -160,39 +83,6 @@ class Home extends CI_Controller {
 		// print_r( $task );
 		echo json_encode( $task );
 		// $this->db->cache_off();
-	}
-
-	public function getMyTaskAttributes() {
-		$TaskHistoryID = $this->input->post('TaskHistoryID');
-		$rs = $this->Home_Model->getMyTaskAttributes( $TaskHistoryID );
-		$data = [];
-
-		if( $rs !== FALSE ) {
-			foreach ($rs->result() as $row) {
-				$data[] = array(
-					'label' => $row->Name,
-					'val' => strtoupper( $row->AttributeValue )
-				);
-			}
-			
-			// IF TASK IS ASSIGNED BY SUPERVISOR
-			if( (int)$rs->row()->AssignedBy !== (int)$rs->row()->AssignedTo ) {
-				$data[] = array(
-					'label' => 'ASSIGNED BY',
-					'val' => strtoupper($rs->row()->AssignedByName)
-				);
-			}
-		}
-		
-
-		// $data['assignedBy'] 
-
-		echo json_encode( $data );
-	}
-
-	public function getMyStatus() {
-		$rs = $this->Home_Model->getMyStatus();
-		echo json_encode( $rs !== FALSE ? array((int)$rs->MyStatusID,$rs->Status) : [] );
 	}
 
 	public function getMyActivity() {
@@ -205,7 +95,7 @@ class Home extends CI_Controller {
 				$t = date('h:i:s A',strtotime($row->StartTime));
 
 				$obj = (object) array(
-					'task' => $row->TaskDescription,
+					'task' => $row->TaskNo,
 					'dt' => (object) array('d'=>$d,'t'=>$t)
 				);
 
@@ -241,29 +131,16 @@ class Home extends CI_Controller {
 		}
 	}*/
 
-	public function getTaskAttributes( $taskID = null ) {
-		$data = [];
-		$data['task_type'] = $this->_tasksType();
-
-		$taskID = isset($taskID) ? $taskID : (int)$this->_tasksType()[0]->id;
+	public function getTaskAttributes() {
+		$taskID = (int)$this->input->post('id');
 		$rs = $this->Home_Model->getTaskAttributes( $taskID );
-		
-		if( $rs !== FALSE ) {
-			$data['attr'] = $rs->result();
-		}
-		if( (int)$this->user->SupervisorID === 0 ) {
-			
-			$data['employee'] = $this->_employees();
-			array_unshift( $data['employee'], (object) array(
-				'id' => $this->user->UserID,
-				'desc' => ucwords(strtolower($this->user->EmployeeName))
-			) );
-		}
+		$data = [];
 
-		echo json_encode( $data );
+		echo json_encode( $rs !== FALSE ? $rs->result() : $data );
+
 	}
 
-	private function _tasksType() {
+	public function getTasksType() {
 		$rs = $this->Home_Model->getTaskTypeList();
 		$list = [];
 
@@ -276,7 +153,9 @@ class Home extends CI_Controller {
 				);
 			}
 		}
-		return $list;
+		// echo '<pre>';
+		// print_r( $list );
+		echo json_encode( $list );
 	}
 
 	public function startTask() {
@@ -409,13 +288,10 @@ class Home extends CI_Controller {
 
 	public function addTask() {
 		$datas = $this->input->post('data');
-		$assignedTo = $this->input->post('assignedTo');
-		$assignedTo = isset($assignedTo) ? $assignedTo : (int)$this->user->UserID;
+		$assignedTo = (int)$this->user->UserID;
 		$assignedBy = (int)$this->user->UserID;
 		$userLevel = (int)$this->user->UserLevelID;
 		$taskID = (int)$this->input->post('taskid');
-
-		$dueDate = date('Y-m-d',strtotime($this->input->post('dueDate')));
 
 		$taskAttributeID = [];
 		$attributeValue = [];
@@ -426,7 +302,7 @@ class Home extends CI_Controller {
 			$attributeValue[] = trim($data->val);
 		}
 
-		$rs = $this->Home_Model->addTask( $assignedTo,$assignedBy,$userLevel,$taskID,implode(',', $taskAttributeID),implode(',', $attributeValue),$dueDate );
+		$rs = $this->Home_Model->addTask( $assignedTo,$assignedBy,$userLevel,$taskID,implode(',', $taskAttributeID),implode(',', $attributeValue) );
 		echo $rs === TRUE ? 0 : 'ERROR: '.$rs;
 
 	}
@@ -454,49 +330,9 @@ class Home extends CI_Controller {
 
 	public function submitTask() {
 		$taskHistoryID = (int)$this->input->post('id');
-		$submitTime = date('Y-m-d H:i:s');
-		if( $taskHistoryID > 0 ) {
-			$rs = $this->Home_Model->submitTask( $taskHistoryID,$submitTime );
-			echo $rs === TRUE ? 0 : 'ERROR: '.$rs;
-		} else {
-			echo 'ERROR: No record found';
-		}
-	}
-
-	public function _employees() {
-		$rs = $this->Home_Model->getEmployees('');
-		$data = [];
-
-		if( $rs !== FALSE ) {
-			foreach ($rs->result() as $row) {
-				$data[] = (object) array(
-					'id' => $row->UserID,
-					'desc' => ucwords(strtolower($row->EmployeeName))
-				);
-			}
-		}
-
-		return $data;
-	}
-
-	public function doneTask() {
-		$taskHistoryID = (int)$this->input->post('id');
 		$endTime = date('Y-m-d H:i:s');
 		if( $taskHistoryID > 0 ) {
-			$rs = $this->Home_Model->doneTask( $taskHistoryID,$endTime );
-			echo $rs === TRUE ? 0 : 'ERROR: '.$rs;
-		} else {
-			echo 'ERROR: No record found';
-		}
-	}
-	
-	public function returnTask() {
-		$taskHistoryID = (int)$this->input->post('id');
-		$remarks = trim($this->input->post('remarks'));
-		$returnDate = date('Y-m-d H:i:s');
-
-		if( $taskHistoryID > 0 ) {
-			$rs = $this->Home_Model->returnTask( $taskHistoryID,$remarks,$returnDate );
+			$rs = $this->Home_Model->submitTask( $taskHistoryID,$endTime );
 			echo $rs === TRUE ? 0 : 'ERROR: '.$rs;
 		} else {
 			echo 'ERROR: No record found';

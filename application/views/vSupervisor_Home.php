@@ -1,4 +1,4 @@
-    <?php
+<?php
         defined('BASEPATH') OR exit('No direct script access allowed'); //error_reporting(0);
         
         $headerTitle = 'Job On Track System'; //all character that is in uppercase will wrap inside a '<span>'
@@ -12,6 +12,10 @@
         $my_asset = [];
 
         $top_pages = array(
+            'Dashboard' => array(
+                'href' => 'Dashboard',
+                'icon' => 'fa fa-dashboard',
+            ),
             'Home' => array(
                 'href' => 'Home', //javascript:;
                 'icon' => 'fa fa-tasks',
@@ -120,6 +124,12 @@
                                         <div class="modal-body">
                                             <form class="form-horizontal" id='frmNewTask' role="form" autocomplete="off">
                                                 <div class="form-group">
+                                                    <label for="inputEmail1" class="col-lg-3 col-sm-3 control-label">Assigned To</label>
+                                                    <div class="col-lg-9">
+                                                        <select class="chosen-select" id="sel-assignedTo"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="inputEmail1" class="col-lg-3 col-sm-3 control-label">Task</label>
                                                     <div class="col-lg-9">
                                                         <select class="chosen-select" id="sel-task"></select>
@@ -186,7 +196,7 @@
                     buttons: {
                         confirm: function () {
                             self = this;
-                            $.post(base_url+'Home/addTask',{data:taskAttrValue,taskid:$("#sel-task").val(),dueDate:$("#txtDueDate").val()},function(d) {
+                            $.post(base_url+'Home/addTask',{data:taskAttrValue,taskid:$("#sel-task").val(),assignedTo:$("#sel-assignedTo").val(),dueDate:$("#txtDueDate").val()},function(d) {
                                 if( d == 0 ) {
                                     myTask();
                                     $("#new-modal").modal('hide');

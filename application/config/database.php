@@ -70,21 +70,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = '249_sdt_db';
+$active_group = '243_db';
 $query_builder = TRUE;
 
-$db['249_sdt_db'] = array(
+$db['243_db'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	//'hostname' => '192.168.1.249,4949',
+	// 'hostname' => 'localhost',
+	'hostname' => '192.168.1.243',
 	'username' => 'sa',
 	'password' => 'P@ssw0rd',
-	'database' => 'SDT-DB',
+	'database' => 'JOTS-DB',
 	'dbdriver' => 'sqlsrv',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
-	//'db_debug' => (ENVIRONMENT !== 'production'),
-	'db_debug' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	// 'db_debug' => FALSE,
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
@@ -108,6 +108,29 @@ $db['nav_replication'] = array(
 	'pconnect' => FALSE,
 	//'db_debug' => (ENVIRONMENT !== 'production'),
 	'db_debug' => FALSE,
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+$db['db_test'] = array(
+	'dsn'	=> '',
+	'hostname' => 'mysql:host=localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'test',
+	'dbdriver' => 'pdo',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	// 'db_debug' => FALSE,
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',

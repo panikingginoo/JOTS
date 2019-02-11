@@ -50,14 +50,16 @@ var Script = function () {
             $('#main-content').css({
                 'margin-left': '0px'
             });
+
             $('#sidebar').css({
-                'margin-left': '-210px'
+                'margin-left': '-250px'
             });
+
             $('#sidebar > ul').hide();
             $("#container").addClass("sidebar-closed");
         } else {
             $('#main-content').css({
-                'margin-left': '210px'
+                'margin-left': '250px'
             });
             $('#sidebar > ul').show();
             $('#sidebar').css({

@@ -1,0 +1,373 @@
+/* BASE CSS */
+.i {
+    font-style: italic;
+    padding-top: 7px;
+    font-size: 14px;
+}
+/* BASE CSS */
+/* HEADER HTML */
+ul.top-menu > li > a {
+    border: 1px solid lightgrey!important;
+}
+.white-bg {
+    box-shadow: 0 2px 2px -2px grey;
+}
+.wrapper {
+    padding: 0 5px;
+    margin-top: 65px;
+}
+.nopad {
+    padding: 0;
+    background: #f1f2f7;
+}
+.panel-body:before, .panel-body:after {
+    display: none;
+}
+.head-settings {
+    float: right;
+}
+.head-status span {
+    display: block;
+}
+.head-status,
+#btnBreakOut {
+    float: right;
+}
+.head-status {
+    word-spacing: 1px;
+    letter-spacing: 1px;
+    margin: 10px 10px 0 0;
+    font-size: 15px;
+    padding: 5px 8px;
+}
+#btnBreakOut {
+    border: 1px solid #bfbfbf;
+    font-size: 17px;
+    margin: 10px 0 0;
+    padding: 3px 7px;
+    border-radius: 0;
+    color: #6D6A69;
+    background: #f8f8f8;
+}
+#btnBreakOut:hover {
+    border: 1px solid #bfbfbf;
+    color: #222;
+    transition: all 0s;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 0 4px 1px rgba(0,0,0,.08);
+    box-shadow: inset 0 0 4px 1px rgba(0,0,0,.08);
+}
+/* HEADER HTML */
+/* SIDEBAR */
+#nav-accordion {
+    text-align: center;
+}
+#nav-accordion .sidebar-span {
+    display: block;
+    text-align: center;
+    color: #FF6C60;
+    padding: 5px 0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 16px;
+    text-shadow: 0 1px 1px black;
+}
+#my_status {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: white;
+    text-shadow: 0 1px 1px black;
+}
+select#sel-myStatus {
+    padding: 3px;
+    width: 90%;
+    margin: 0px 5%;
+}
+#tblMyActivity {
+    width: 90%;
+    margin: 0 auto;
+}
+#tblMyActivity th,
+#tblMyActivity td {
+    background: white;
+    padding: 3px;
+}
+/*#btnBreakOut {
+    margin: 5px 0;
+    text-shadow: 0 1px 1px black;
+    letter-spacing: 1px;
+}*/
+/* SIDE BAR */
+/* WIP-HEAD */
+.wip-cont {
+    /* margin: 10px;
+    height: 80px;
+    box-shadow: 0 2px 2px -2px grey; */
+    border-radius: 10px;
+    background: white;
+    height: 80px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+/*.wip-cont:after {
+    content: "."; 
+    visibility: hidden; 
+    display: block; 
+    height: 0; 
+    clear: both;
+}*/
+.wip-desc {
+    /*background: lightblue;*/
+    width: 95%;
+    height: 100%;
+    display: block;
+    float: left;
+}
+.wip-desc span {
+    /* margin: 1%;
+    display: block; */
+    margin: 0 10px;
+    display: block;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+.wip-desc .wip-div {
+    width: 50%;
+    height: 98%;
+    float: left;
+    display: block;
+}
+.wip-div h1 {
+    width: 50%;
+    margin: 8px;
+    height: 45%;
+    display: inline-block;
+    color: brown;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 1px grey;
+}
+.wip-div h1#h1_time {
+    text-align: right;
+    padding-right: 20px;
+    width: 100%;
+    height: 80%;
+    font-size: 4em;
+    color: black;
+    text-shadow: 0 1px 1px #a52a2e;
+    letter-spacing: 10px;
+}
+.wip-btn {
+    /* width: 15%;
+    height: 100%;
+    display: block;
+    float: left;
+    text-align: center; */
+    border-radius: 50%;
+    display: block;
+    float: left;
+    margin: 10px;
+    text-align: center;
+    padding: 10px 12px;
+    background: #f1f2f7;
+    transition: box-shadow 1s;
+}
+
+.wip-btn:after {
+    content: "."; 
+    visibility: hidden; 
+    display: block; 
+    height: 0; 
+    clear: both;
+}
+.wip-btn i {
+    /* font-size: 5em;
+    margin: 3.5% auto;
+    text-shadow: 0 1px 1px black;
+    cursor: pointer; */
+    font-size: 2em;
+    text-shadow: 0 1px 1px black;
+    cursor: pointer;
+    vertical-align: middle;
+}
+.wip-btn i.fa.fa-play {
+    color: green;
+}
+.wip-btn i.fa.fa-pause {
+    color: orange;
+}
+.wip-btn i.fa.fa-stop {
+    color: red;
+}
+/* WIP-HEAD */
+/* TASK CONTAINER */
+.task-container {
+    /* display: block;
+    margin: 10px 0;
+    overflow: auto; */
+    display: block;
+    margin: 10px 0;
+    overflow: auto;
+    background: white;
+    padding: 20px 0;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.col-33 {
+    width: 33.33%;
+    padding: 0 2.5%;
+    height: auto;
+    min-height: 55px;
+    /* display: inline; */
+    float: left;
+    /*border-right: 1px solid lightgrey;*/
+}
+.col-33:last-child {
+    border-right: none;
+}
+.btnNew {
+    background: lightseagreen;
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid lightgrey;
+    text-align: center;
+    font-size: 1.5em;
+    padding: 3px 0;
+    cursor: pointer;
+    /* color: rgba(128, 128, 128, 0.75); */
+    color: white;
+    border-radius: 3px;
+    transition: all 0.5s;
+    vertical-align: middle;
+}
+.btnNew:hover {
+    border: 1px solid grey;
+    /* color: grey; */
+}
+.task {
+    border: 1px solid lightgray;
+    padding: 3px 0;
+    margin: 5px 0;
+    border-radius: 3px;
+    vertical-align: middle;
+    /*cursor: pointer;*/
+    transition: all 0.5s;
+    text-align: center;
+    overflow: auto;
+    position: relative;
+}
+/*.task:hover {
+    border: 1px solid grey;
+}*/
+.task .task-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    vertical-align: middle;
+    padding: 1px 7.5px;
+    border: 1px solid gray;
+    margin: 2px 3px 3px 3px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.task .task-info:hover {
+    border: 1px solid #bfbfbf;
+    color: #222;
+    transition: all 0s;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 0 4px 1px rgba(0,0,0,.08);
+    box-shadow: inset 0 0 4px 1px rgba(0,0,0,.08);
+}
+.task .task-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 3px;
+}
+.task-btn .btn {
+    margin: 0 1px;
+}
+.task .time-lapse {
+    letter-spacing: 3px;
+    display: block;
+    color: black;
+    font-weight: 600;
+}
+.task .task-title {
+    font-weight: bold;
+    font-size: 14px;
+    color: brown;
+    letter-spacing: 1px;
+    display: block;
+    padding: 2px 0;
+    box-shadow: 0 2px 2px -2px grey;
+}
+.task .time-info {
+    font-size: 10px;
+    width: 100%;
+    padding: 5px 0 3px 0;
+    /* display: block; */
+    overflow: auto;
+}
+.time-info .dt {
+    display: block;
+    width: 33.33%;
+    float: left;
+    text-shadow: 0 1px 1px gray;
+}
+.dt b {
+    letter-spacing: 1px;
+}
+.dt b, .dt i {
+    display: block;
+}
+.dt.start-date i {
+    color: green;
+}
+.dt.due-date i {
+    color: orange;
+}
+.dt.days-late i {
+    color: red;
+}
+.divider {
+    width: 1px;
+    height: 86%;
+    border-right: solid thin lightgrey;
+    /* float: left; */
+    display: inline-block;
+    position: absolute;
+}
+span.task-desc {
+    /* display: block;
+    font-size: 1.5em;
+    text-align: center;
+    letter-spacing: 5px;
+    padding: 4px 0;
+    color: #2a3542;
+    text-shadow: 0 1px 1px #ff6c49; */
+    max-width: 385px;
+    margin: 0 auto;
+    display: block;
+    font-size: 1.5em;
+    text-align: center;
+    letter-spacing: 5px;
+    padding: 4px 0;
+    font-weight: bold;
+    color: darkred;
+    background: lightgrey;
+}
+.done span.task-desc {
+    text-align: left;
+}
+/* TASK CONTAINER*/
+/* NEW FORM */
+.form-group {
+    margin-bottom: 5px;
+}
+textarea {
+    resize: none;
+}
+.form-control {
+    color: gray;
+}
+/* NEW FORM */

@@ -10,6 +10,7 @@
     <style type="text/css">
     	.form-control
 	    {
+			font-size: 20px!important;
 	    	color:black!important;
 	    	border:1px solid #C7B9B9!important;
 	    }
@@ -54,14 +55,10 @@
 
 	<div class="container">
 
-		<form class="form-signin" action="<?php echo base_url(); ?>/Login" method="POST" autocomplete="off">
+		<form class="form-signin" action="<?php echo base_url(); ?>Login" method="POST" autocomplete="off">
 			<h2 class="form-signin-heading">Job On Track System</h2>
 			<div class="login-wrap">
 				<p id='error'><?php echo $_SESSION['error']; ?></p>
-				<select class="chosen-select" name='comp'>
-					<option value="Phoenix">Phoenix</option>
-					<option value="Sibs">Sibs</option>
-				</select>
 				<input type="text" class="form-control" placeholder="Spark ID" name='user' id='user' autofocus>
 				<input type="password" class="form-control" placeholder="Password" name='pass' id='pass'>
 				<button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
