@@ -22,6 +22,7 @@ class Home extends CI_Controller {
 	public function index() {
 
 		$current_status = $this->current_status;
+		$data['userLevel'] = $this->user->UserLevelID;
 		switch ( (int)$this->user->UserLevelID ) {
 			case 2: // client
 				if( $current_status !== 3 ) {
@@ -146,7 +147,6 @@ class Home extends CI_Controller {
 				$info['AssignedBy'] = (int)$row->AssignedBy;
 				$info['SubmittedBy'] = (int)$row->TaskStatusID > 2 ? strtoupper($row->AssignedToName) : null;
 				$info['SubmittedTime'] = is_null($row->SubmittedTime) || $row->SubmittedTime == '' ? null : date('F d, Y - h:i A',strtotime($row->SubmittedTime));
-				
 
 				if( $c_wip[0] === TRUE && $c_wip[1]->num_rows() > 0 && ( (int)$row->TaskHistoryID === (int)$c_wip[1]->row()->TaskHistoryID ) ) {
 					$task['current_wip'][] = $info;

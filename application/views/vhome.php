@@ -166,6 +166,9 @@
     <?php include 'include/default_script.php'; ?>
 
     <script type="text/javascript" src="<?php echo base_url('assets/jquery-confirm/jquery-confirm.min.js'); ?>"></script>
+    <script type="text/javascript">
+        var userLevel = <?php echo $userLevel; ?>;
+    </script>
     <script type="text/javascript" src="<?php echo base_url('js/main.js'); ?>"></script>
     <script type="text/javascript">
         $(document).ready(function()

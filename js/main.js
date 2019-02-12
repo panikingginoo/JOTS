@@ -226,6 +226,10 @@ function myTask() {
                     break;
                 case 3:
                     btn = '';
+                    if( userLevel == 3 ) { // IF SUPERVISOR
+                        btn = '<button class="btn btn-info btn-xs btnReturn" data-taskid='+d.my_task[i].id+'><i class="fa fa-mail-reply"></i></button>';
+                        btn += '<button class="btn btn-success btn-xs btnDone" data-taskid='+d.my_task[i].id+'><i class="fa fa-check"></i></button>';
+                    }
                     break;
                 case 4:
                     btn = '';
@@ -253,10 +257,13 @@ function myTask() {
                                 '<b>DAYS LATE</b>'+
                                 '<i>'+dLateDone+'</i>'+
                             '</div>'+
-                        '</div>'+
-                        '<div>'+
-                        '</div>'+
-                    '</div>';
+                        '</div>';
+                if( d.my_task[i].TaskStatus === 3 && userLevel === 3 ) {
+                    task += '<div class="submitted-info">'+
+                                '<i>by '+d.my_task[i].SubmittedBy+'</i>'+
+                            '</div>';
+                }
+            task += '</div>';
 
             switch( d.my_task[i].TaskStatus ) {
                 case 1:
@@ -296,7 +303,7 @@ function myTask() {
         // console.log( d.current_wip.length );
 
         $(".wip-desc h1#h1_title").text( wip_h1 );
-        $(".wip-desc span").text( wip_span );
+        $(".wip-desc span").text( 'ITEM CODE: '+ wip_span );
         
         $('.new-container').html( newTask );
         $('.wip-container').html( wipTask );
@@ -737,8 +744,6 @@ $(document).on('click','.wip-btn .fa-play',function() {
         }
     });               
 });
-
-// console.log( 'STAT '+<?php echo $current_status; ?> );
 
 $(document).on('click','.wip-btn .fa-stop',function() {
     task = $('.wip-desc #h1_title').text();

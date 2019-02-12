@@ -55,7 +55,7 @@
 
     <div class="lock-wrapper">
 
-        <div id="time">00:00:00</div>
+        <div id="time">&nbsp;</div>
         <button type="button" id="btnBreakIn" class="btn btn-primary">BREAK IN <i class="fa fa-arrow-right"></i></button>
     </div>
     <script src="<?php echo base_url(); ?>js/jquery-1.8.3.min.js"></script>
@@ -75,17 +75,20 @@
                     elapsed = (now.getTime() - breakOut.getTime()) / 1000;
 
                     d = Math.floor(elapsed / 86400);
-                    h = addZero( Math.floor(elapsed / 3600 % 24) );
-                    m = addZero( Math.floor(elapsed / 60 % 60) );
-                    s = addZero( Math.floor(elapsed % 60)-10 );
+                    h = Math.floor(elapsed / 3600 % 24);
+                    m = Math.floor(elapsed / 60 % 60);
+                    s = Math.floor(elapsed % 60);
 
-                    // console.log( id );
-                    $("#time").text(h+':'+m+':'+s);
+                    if( h > 0 || m > 0 || s > 0 ) {
+                        h = addZero( h < 0 ? 0 : h );
+                        m = addZero( m < 0 ? 0 : m );
+                        s = addZero( s < 0 ? 0 : s );
+                        // console.log( id );
+                        $("#time").text(h+':'+m+':'+s);
+                    }
                 },1000)
             }
             runTime( "<?php echo $breakInfo->BreakOut; ?>" );
-
-            // console.log( new Date() + ' - ' + new Date("<?php echo $breakInfo->BreakOut; ?>") );
 
             $("#btnBreakIn").on('click',function() {
                 $.post(base_url+'Home/breakIn',function(d) {

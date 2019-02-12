@@ -176,6 +176,9 @@
     <?php include 'include/default_script.php'; ?>
 
     <script type="text/javascript" src="<?php echo base_url('assets/jquery-confirm/jquery-confirm.min.js'); ?>"></script>
+    <script type="text/javascript">
+        var userLevel = <?php echo $userLevel; ?>;
+    </script>
     <script type="text/javascript" src="<?php echo base_url('js/main.js'); ?>"></script>
     <script type="text/javascript">
         $(document).ready(function()
@@ -219,6 +222,91 @@
 
                 return false;
             });
+
+            $(document).on('click',".btnReturn",function() {
+                taskID = $(this).data('taskid');
+                $.confirm({
+                    title: 'BACK JOB',
+                    content: '' +
+                    '<form action="">' +
+                        '<div class="form-group">' +
+                            '<textarea class="form-control" rows="5" required id="txtReturnRemaks" placeholder="Remarks"></textarea>' +
+                        '</div>' +
+                    '</form>',
+                    buttons: {
+                        formSubmit: {
+                            text: 'Submit',
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                self = this;
+                                var remarks = $.trim(self.$content.find('#txtReturnRemaks').val());
+                                if(remarks == ''){
+                                    $.alert('Please put some remarks');
+                                    return false;
+                                } else {
+                                    $.post(base_url+'Home/returnTask',{'id':taskID,'remarks':remarks},function(d) {
+                                        if( d == 0 ) {
+                                            myTask();
+                                            self.close();
+                                        } else {
+                                            $.alert({
+                                                title: 'Encountered an error!',
+                                                content: d,
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                        cancel: function () {
+                            //close
+                        },
+                    },
+                    onContentReady: function () {
+                        // bind to events
+                        var jc = this;
+                        this.$content.find('form').on('submit', function (e) {
+                            // if the user submits the form by pressing enter in the field.
+                            e.preventDefault();
+                            jc.$$formSubmit.trigger('click'); // reference the button and click it
+                        });
+                    }
+                });
+            });
+
+            $(document).on('click','.btnDone',function() {
+                task = $(this).parent().parent().find('.task-title').text();
+                id = $(this).data('taskid');
+                // console.log( id );
+                $.confirm({
+                    title: task,
+                    content: 'Set to done?',
+                    theme: 'supervan',
+                    buttons: {
+                        confirm: function () {
+                            self = this;
+                            $.post(base_url+'Home/doneTask',{id:id},function(d) {
+                                if( d == 0 ) {
+                                    myTask();
+                                    self.close();
+                                } else {
+                                    $.alert({
+                                        title: 'Encountered an error!',
+                                        content: d,
+                                    });
+                                }
+                            },'json');
+
+                            return false;
+                        },
+                        cancel: function () {
+                            // $.alert('Canceled!');
+                        },
+                        
+                    }
+                });
+            });
+            
             
         });
     </script>
