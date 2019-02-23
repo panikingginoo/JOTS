@@ -145,7 +145,7 @@ class Home extends CI_Controller {
 				$info['CategoryID'] = $row->CategoryID;
 				$info['AssignedTo'] = (int)$row->AssignedTo;
 				$info['AssignedBy'] = (int)$row->AssignedBy;
-				$info['SubmittedBy'] = (int)$row->TaskStatusID > 2 ? strtoupper($row->AssignedToName) : null;
+				$info['SubmittedBy'] = !is_null($row->SubmittedTime) ? strtoupper($row->AssignedToName) : null;
 				$info['SubmittedTime'] = is_null($row->SubmittedTime) || $row->SubmittedTime == '' ? null : date('F d, Y - h:i A',strtotime($row->SubmittedTime));
 
 				if( $c_wip[0] === TRUE && $c_wip[1]->num_rows() > 0 && ( (int)$row->TaskHistoryID === (int)$c_wip[1]->row()->TaskHistoryID ) ) {
@@ -179,6 +179,15 @@ class Home extends CI_Controller {
 			if( (int)$rs->row()->AssignedBy !== (int)$rs->row()->AssignedTo ) {
 				$data[] = array(
 					'label' => 'ASSIGNED BY',
+					'val' => strtoupper($rs->row()->AssignedByName)
+				);
+			}
+
+			// IF TASK IS BACK JOB
+			if( (int)$rs->row()->AssignedBy !== (int)$rs->row()->AssignedTo ) {
+				$remarks = 
+				$data[] = array(
+					'label' => 'BACK JOB REMARKS',
 					'val' => strtoupper($rs->row()->AssignedByName)
 				);
 			}
@@ -463,7 +472,7 @@ class Home extends CI_Controller {
 		}
 	}
 
-	public function _employees() {
+	private function _employees() {
 		$rs = $this->Home_Model->getEmployees('');
 		$data = [];
 

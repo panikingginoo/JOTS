@@ -367,6 +367,10 @@ span.task-desc {
     font-weight: 600;
     letter-spacing: 1px;
 }
+.task.backjob {
+    color: white;
+    background: rgba(255, 0, 0, 0.5);
+}
 /* TASK CONTAINER*/
 /* NEW FORM */
 .form-group {

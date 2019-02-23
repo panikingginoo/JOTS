@@ -29,15 +29,15 @@
 	padding: 10px;
 	background: #2c3f52;
 	color: #FF6C60;
-    font-size: 13px;
+	font-size: 13px;
 }
 
 .grid figcaption h3 {
 	margin: 0;
 	padding: 0;
 	color: #fff;
-    font-size: 16px;
-    font-weight: 300;
+	font-size: 16px;
+	font-weight: 300;
 }
 
 .grid figcaption span:before {
@@ -187,7 +187,7 @@
 	transform-style: preserve-3d;
 }
 
-.cs-style-4 figure > div {
+.cs-style-4 figure>div {
 	overflow: hidden;
 }
 
@@ -319,12 +319,29 @@
 }
 
 /* Caption Style 7 */
-.cs-style-7 li:first-child { z-index: 6; }
-.cs-style-7 li:nth-child(2) { z-index: 5; }
-.cs-style-7 li:nth-child(3) { z-index: 4; }
-.cs-style-7 li:nth-child(4) { z-index: 3; }
-.cs-style-7 li:nth-child(5) { z-index: 2; }
-.cs-style-7 li:nth-child(6) { z-index: 1; }
+.cs-style-7 li:first-child {
+	z-index: 6;
+}
+
+.cs-style-7 li:nth-child(2) {
+	z-index: 5;
+}
+
+.cs-style-7 li:nth-child(3) {
+	z-index: 4;
+}
+
+.cs-style-7 li:nth-child(4) {
+	z-index: 3;
+}
+
+.cs-style-7 li:nth-child(5) {
+	z-index: 2;
+}
+
+.cs-style-7 li:nth-child(6) {
+	z-index: 1;
+}
 
 .cs-style-7 figure img {
 	z-index: 10;
@@ -385,6 +402,7 @@
 	.grid {
 		padding: 10px 10px 100px 10px;
 	}
+
 	.grid li {
 		width: 100%;
 		min-width: 300px;

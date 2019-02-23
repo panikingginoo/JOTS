@@ -239,7 +239,9 @@ function myTask() {
                     break;
             }
 
-            task = '<div class="task">'+
+            isBackJob = d.my_task[i].TaskStatus === 2 && d.my_task[i].SubmittedBy !== null ? ' backjob' : '';
+
+            task = '<div class="task'+isBackJob+'" title="'+(isBackJob == '' ? '' : 'BACK JOB')+'">'+
                         '<span class="task-info" title="View info" data-th_id='+d.my_task[i].id+'><i class="fa fa-info"></i></span>'+
                         '<div class="task-btn">'+btn+'</div>'+
                         '<span class="time-lapse" data-taskid='+d.my_task[i].id+'></span>'+
@@ -561,7 +563,11 @@ $(document).on('change','#sel-task',function() {
             }
 
             $(".attr-container").append( attr );
-            $(".chosen-select").chosen({width: "100%"});
+            $(".chosen-select").chosen({
+                width: "100%",
+                search_contains: true,
+                allow_single_deselect: true
+            });
         }
 
     },'json');

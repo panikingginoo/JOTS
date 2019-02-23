@@ -207,7 +207,6 @@ class Home_Model extends CI_Model {
             $this->db->like('EmployeeName',$search);
         }
         $qry = $this->db->get('vwUser');
-
         // echo $this->db->last_query();
 
         return $qry->num_rows() > 0 ? $qry : FALSE;
@@ -231,6 +230,15 @@ class Home_Model extends CI_Model {
         $error = substr( $this->db->error()['message'], $start );
 
         return $qry ? TRUE : $error;
+    }
+
+    public function getBackJobRemarks( $taskHistoryID ) {
+        // $qry = $this->db->get_where()
+    }
+
+    public function listStatus() {
+        $qry = $this->db->get('tblTaskStatus');
+        return $qry->num_rows() > 0 ? $qry : FALSE;
     }
 
 }

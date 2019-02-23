@@ -19,7 +19,11 @@
             'Home' => array(
                 'href' => 'Home', //javascript:;
                 'icon' => 'fa fa-tasks',
-            ),            
+            ),
+            'Report' => array(
+                'href' => 'Report', //javascript:;
+                'icon' => 'fa fa-file-text-o',
+            ),
             'Logout' => array(
                 'href' => 'Logout',
                 'icon' => 'fa fa-key',
@@ -172,7 +176,7 @@
     </section>
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <?php $my_js = ['jquery.waypoints.min','chosen.jquery.min','datepicker']; ?>
+    <?php $my_js = ['chosen.jquery.min','datepicker']; ?>
     <?php include 'include/default_script.php'; ?>
 
     <script type="text/javascript" src="<?php echo base_url('assets/jquery-confirm/jquery-confirm.min.js'); ?>"></script>

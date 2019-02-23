@@ -76,7 +76,11 @@
         'Home' => array(
             'href' => 'Home', //javascript:;
             'icon' => 'fa fa-tasks',
-        ),            
+        ),
+        'Report' => array(
+            'href' => 'Report', //javascript:;
+            'icon' => 'fa fa-file-text-o',
+        ),
         'Logout' => array(
             'href' => 'Logout',
             'icon' => 'fa fa-key',
